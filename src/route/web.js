@@ -1,10 +1,10 @@
 import express from "express";
-import { getHomePage } from '../controllers/homeController';
+import * as HomaPage from '../controllers/homeController';
 
 let router = express.Router();
 
 const initWebRoute = (app) => {
-    router.get('/', getHomePage)
+    router.get('/', HomaPage.getHomePage)
 
     //resful API
 
