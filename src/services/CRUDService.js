@@ -42,8 +42,45 @@ const hashUserPassword = (password) => {
 export const getAllUser = () => {
     return new Promise(async (resolve, reject) => {
         try {
-            const allUser = db.User.findAll({raw: true});
+            const allUser = await db.User.findAll({raw: true});
             resolve(allUser)
+        } catch(e) {
+            reject(e)
+        }
+    })
+}
+
+export const getUserById = (id) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            const user = await db.User.findOne({ where: {id: id}, raw: true})
+           if(user) {
+            resolve(user)
+           } else {
+            resolve([])
+           }       
+        } catch(e) {
+            reject(e)
+        }
+    })
+}
+
+export const updateUser = (data) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            await db.User.update({firstName: data.firstName, lastName: data.lastName, address: data.address}, {where: {id: data.id}})
+            resolve("edit succes")
+        } catch(e) {
+            reject(e)
+        }
+    })
+}
+
+export const deleteUser = (id) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            await db.User.destroy({where: {id :id}})
+            resolve("delete succes!")
         } catch(e) {
             reject(e)
         }
