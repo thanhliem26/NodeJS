@@ -38,3 +38,14 @@ const hashUserPassword = (password) => {
         }
     })
 }
+
+export const getAllUser = () => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            const allUser = db.User.findAll({raw: true});
+            resolve(allUser)
+        } catch(e) {
+            reject(e)
+        }
+    })
+}

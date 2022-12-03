@@ -19,6 +19,13 @@ export const getCRUD = async (req, res) => {
 
 export const postCRUD = async (req, res) => {
     const message = await CRUDService.createNewUser(req.body)
-    console.log("🚀 ~ message", message)
     return res.send("Post CRUD");
+}
+
+export const displayCRUD = async (req, res) => {
+    const allUser = await CRUDService.getAllUser();
+ 
+    return res.render("displayCRUD.ejs", {
+        dataUser: allUser
+    })
 }
