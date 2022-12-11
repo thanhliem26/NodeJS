@@ -4,7 +4,6 @@ import * as CRUDService from '../services/CRUDService';
 export const getHomePage = async (req, res) => {
     try {
         let data = await db.User.findAll();
-        console.log("data", data)
         return res.render("homepage.ejs", {
             data: JSON.stringify(data)
         })
@@ -44,7 +43,6 @@ export const putCRUD = async (req, res) => {
     const data = req.body;
     const messageEdit = await CRUDService.updateUser(data);
     const allUser = await CRUDService.getAllUser();
-    console.log("🚀 ~ messageEdit", messageEdit)
 
     return res.render("displayCRUD.ejs", {
         dataUser: allUser
