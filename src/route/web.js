@@ -15,7 +15,7 @@ const initWebRoute = (app) => {
     
     //resful API
     router.post('/api/login', UserController.handleLogin);
-
+    router.get('/api/get-all-user', UserController.handleGetAllUser)
 
     return app.use("/", router);
 }

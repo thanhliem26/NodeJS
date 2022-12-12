@@ -67,3 +67,22 @@ export const checkUserEmail = (userEmail) => {
         }
     })
 }
+
+export const getAllUser = (userId) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            let users = null;
+            if(userId === "ALL") {
+                users = await db.User.findAll();
+            } else {
+                users = await db.User.findOne({
+                    where: {id : userId}
+                })
+            }
+            console.log("user", users)
+            resolve(users)
+        } catch(e) {
+            reject(e)
+        }
+    })
+}

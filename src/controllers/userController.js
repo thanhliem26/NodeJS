@@ -19,3 +19,15 @@ export const handleLogin= async (req, res) => {
         user: userData.user ? userData.user : {}
     })
 }
+
+export const handleGetAllUser = async (req, res) => {
+    const id = req.query.id;
+    console.log("id", id)
+    const users = await UserService.getAllUser(id);
+
+    return res.status(200).json({
+        errCode: 0,
+        message: "Succes!",
+        users: users,
+    })
+}
