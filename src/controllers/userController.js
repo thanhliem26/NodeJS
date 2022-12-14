@@ -22,7 +22,6 @@ export const handleLogin= async (req, res) => {
 
 export const handleGetAllUser = async (req, res) => {
     const id = req.query.id;
-    console.log("id", id)
     const users = await UserService.getAllUser(id);
 
     return res.status(200).json({
@@ -30,4 +29,25 @@ export const handleGetAllUser = async (req, res) => {
         message: "Succes!",
         users: users,
     })
+}
+
+export const handleCreateUser = async (req, res) => {
+    const data = req.body;
+    const message = await UserService.createNewUser(data);
+
+    return res.status(200).json(message)
+}
+
+export const handleEditUser = async (req, res) => {
+    const data = req.body;
+    const message = await UserService.updateUserData(data);
+
+    return res.status(200).json(message);
+}
+
+export const handleDeleteUser = async (req, res) => {
+    const id = req.query.id;
+
+    const message = await UserService.deleteUser(id);
+    return res.status(200).json(message)
 }

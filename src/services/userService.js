@@ -1,5 +1,7 @@
 import db from '../models/index';
 import bcrypt from 'bcrypt';
+import { reject } from 'bcrypt/promises';
+const saltRounds = 10;
 
 export const handleUserLogin = (email, password) => {
     return new Promise(async (resolve, reject) => {
@@ -79,8 +81,90 @@ export const getAllUser = (userId) => {
                     where: {id : userId}
                 })
             }
-            console.log("user", users)
+
             resolve(users)
+        } catch(e) {
+            reject(e)
+        }
+    })
+}
+
+export const createNewUser = async (data) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            const check = await checkUserEmail(data.email);
+            if(check) {
+                resolve({
+                    errCode: 1,
+                    message: "Your email is already in used, Plz try another email!"
+                })
+            }
+            const hashPassword = await hashUserPassword(data.password);
+
+            await db.User.create({
+                email: data.email,
+                password: hashPassword,
+                firstName: data.firstName,
+                lastName: data.lastName,
+                address: data.address,
+                gender: data.gender === "1" ? true : false,
+                phoneNumber: data.phoneNumber,
+                roleId: data.roleId,
+            })
+            
+            resolve({
+                errCode: 0,
+                message: "Succes!",
+            })
+        } catch (e) {
+            reject(e)
+        }
+    })
+}
+
+const hashUserPassword = (password) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            const hash = await bcrypt.hashSync(password, saltRounds);
+            resolve(hash)
+        } catch (e) {
+            reject(e)
+        }
+    })
+}
+
+export const deleteUser = (id) => {
+    return new Promise( async (resolve, reject) => {
+        try {
+            const user = await db.User.findOne({where: {id : id}});
+            console.log("id", id, user)
+            if(user) {
+                console.log("test")
+                await db.User.destroy({where: {id :id}});
+                resolve({errCode: 0, message: "Succes!"})
+            }
+            resolve({errCode: 1, message: "User not exits!"})
+        } catch(e) {
+            reject(e)
+        }
+    })
+}
+
+export const updateUserData = (data) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            const user = await db.User.findOne({where: {id: data.id}});
+            if(user) {
+                await db.User.update({firstName: data.firstName, lastName: data.lastName, address: data.address}, {where: {id: data.id}})
+               resolve({
+                errCode: 0,
+                message: "Succes!"
+               })
+            }
+            resolve({
+                errCode: 1,
+                message: "User not found!"
+            })
         } catch(e) {
             reject(e)
         }

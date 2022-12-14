@@ -1,4 +1,5 @@
 import express from "express";
+import { route } from "express/lib/application";
 import * as HomaPage from '../controllers/homeController';
 import * as UserController from '../controllers/userController';
 
@@ -15,7 +16,10 @@ const initWebRoute = (app) => {
     
     //resful API
     router.post('/api/login', UserController.handleLogin);
-    router.get('/api/get-all-user', UserController.handleGetAllUser)
+    router.get('/api/get-all-user', UserController.handleGetAllUser);
+    router.post('/api/create-user', UserController.handleCreateUser);
+    router.put('/api/edit-user', UserController.handleEditUser);
+    router.delete('/api/delete-user', UserController.handleDeleteUser);
 
     return app.use("/", router);
 }
