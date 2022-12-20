@@ -155,7 +155,7 @@ export const updateUserData = (data) => {
         try {
             const user = await db.User.findOne({where: {id: data.id}});
             if(user) {
-                await db.User.update({firstName: data.firstName, lastName: data.lastName, address: data.address}, {where: {id: data.id}})
+                await db.User.update({firstName: data.firstName, lastName: data.lastName, address: data.address, gender: data.gender}, {where: {id: data.id}})
                resolve({
                 errCode: 0,
                 message: "Succes!"
