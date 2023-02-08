@@ -51,3 +51,4 @@ export const handleDeleteUser = async (req, res) => {
     const message = await UserService.deleteUser(id);
     return res.status(200).json(message)
 }
+

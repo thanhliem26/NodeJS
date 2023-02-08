@@ -2,6 +2,7 @@ import express from "express";
 import { route } from "express/lib/application";
 import * as HomaPage from '../controllers/homeController';
 import * as UserController from '../controllers/userController';
+import * as AllcodeController from '../controllers/allCodeController';
 
 let router = express.Router();
 
@@ -15,11 +16,18 @@ const initWebRoute = (app) => {
     router.get('/delete-user', HomaPage.deleteCRUD)
     
     //resful API
+
+    //handle table users
     router.post('/api/login', UserController.handleLogin);
     router.get('/api/get-all-user', UserController.handleGetAllUser);
     router.post('/api/create-user', UserController.handleCreateUser);
     router.put('/api/edit-user', UserController.handleEditUser);
     router.delete('/api/delete-user', UserController.handleDeleteUser);
+
+    //handle table allcodes
+    router.get('/api/allcodes', AllcodeController.getAllCodes);
+
+    //
 
     return app.use("/", router);
 }

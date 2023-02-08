@@ -1,6 +1,5 @@
 import db from '../models/index';
 import bcrypt from 'bcrypt';
-import { reject } from 'bcrypt/promises';
 const saltRounds = 10;
 
 export const handleUserLogin = (email, password) => {
@@ -11,7 +10,7 @@ export const handleUserLogin = (email, password) => {
             if(isExist) {
                 const user = await db.User.findOne({
                     raw: true,
-                    attributes: ["email", "roleId", "password"],
+                    attributes: ["email", "roleId", "password", "firstName", "lastName", "id"],
                     where: {email: email}
                 })
 
@@ -107,9 +106,11 @@ export const createNewUser = async (data) => {
                 firstName: data.firstName,
                 lastName: data.lastName,
                 address: data.address,
-                gender: data.gender === "1" ? true : false,
+                gender: data.gender,
                 phoneNumber: data.phoneNumber,
                 roleId: data.roleId,
+                positionId: data.positionId,
+                image: data.image,
             })
             
             resolve({
@@ -155,7 +156,14 @@ export const updateUserData = (data) => {
         try {
             const user = await db.User.findOne({where: {id: data.id}});
             if(user) {
-                await db.User.update({firstName: data.firstName, lastName: data.lastName, address: data.address, gender: data.gender}, {where: {id: data.id}})
+                await db.User.update({
+                    firstName: data.firstName, 
+                    lastName: data.lastName, 
+                    address: data.address, 
+                    gender: data.gender, 
+                    roleId: data.roleId,
+                    positionId: data.positionId,
+                }, {where: {id: data.id}})
                resolve({
                 errCode: 0,
                 message: "Succes!"
@@ -170,3 +178,4 @@ export const updateUserData = (data) => {
         }
     })
 }
+
