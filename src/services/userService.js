@@ -138,7 +138,6 @@ export const deleteUser = (id) => {
     return new Promise( async (resolve, reject) => {
         try {
             const user = await db.User.findOne({where: {id : id}});
-            console.log("id", id, user)
             if(user) {
                 console.log("test")
                 await db.User.destroy({where: {id :id}});
@@ -157,12 +156,14 @@ export const updateUserData = (data) => {
             const user = await db.User.findOne({where: {id: data.id}});
             if(user) {
                 await db.User.update({
-                    firstName: data.firstName, 
-                    lastName: data.lastName, 
-                    address: data.address, 
-                    gender: data.gender, 
+                    firstName: data.firstName,
+                    lastName: data.lastName,
+                    address: data.address,
+                    gender: data.gender,
+                    phoneNumber: data.phoneNumber,
                     roleId: data.roleId,
                     positionId: data.positionId,
+                    image: data.image,
                 }, {where: {id: data.id}})
                resolve({
                 errCode: 0,
