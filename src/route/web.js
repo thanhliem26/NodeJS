@@ -3,6 +3,7 @@ import { route } from "express/lib/application";
 import * as HomaPage from '../controllers/homeController';
 import * as UserController from '../controllers/userController';
 import * as AllcodeController from '../controllers/allCodeController';
+import * as DoctorController from '../controllers/doctorController';
 
 let router = express.Router();
 
@@ -26,6 +27,7 @@ const initWebRoute = (app) => {
 
     //handle table allcodes
     router.get('/api/allcodes', AllcodeController.getAllCodes);
+    router.get('/api/top-doctor-home', DoctorController.getTopDocTor)
 
     //
 
