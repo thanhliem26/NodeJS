@@ -27,8 +27,14 @@ const initWebRoute = (app) => {
 
     //handle table allcodes
     router.get('/api/allcodes', AllcodeController.getAllCodes);
-    router.get('/api/top-doctor-home', DoctorController.getTopDocTor)
+    router.get('/api/top-doctor-home', DoctorController.getTopDocTor);
+    router.get('/api/get-all-doctors', DoctorController.getAllDortors);
+    router.post('/api/save-info-doctor', DoctorController.postInfoDoctor);
+    router.post('/api/bulk-create-schedule', DoctorController.postBulkCreateSchedule)
 
+    //markdown
+    router.get('/api/get-detail-doctor-by-id', DoctorController.getDetailDoctorById);
+    router.get('/api/get-schedule-by-date', DoctorController.getScheduleByDate);
     //
 
     return app.use("/", router);
