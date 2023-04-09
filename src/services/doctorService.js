@@ -61,7 +61,30 @@ export const saveDetailInfoDoctor = (data) => {
                     message: "Missing parameter"
                 })
             } else {
-                if(data.isEdit) {
+                const checkExitDoctor = await db.Doctorinfor.findOne({where: {doctorId: data.id}});
+                const checkEdit = await db.Markdown.findOne({where: {doctorId: data.id}});
+                
+                if(!checkExitDoctor) {
+                  await db.Doctorinfor.create({
+                        doctorId: data?.id,
+                        priceId: data?.selectedPrice?.value,
+                        provinceId: data?.selectedProvince?.value,
+                        paymentId: data?.selectedPayment?.value,
+                        addressClinic: data?.addressClinic,
+                        note: data?.note,
+                        // nameClinic: nameClinic,
+                    })
+                } else {
+                    await db.Doctorinfor.update({
+                        priceId: data?.selectedPrice?.value,
+                        provinceId: data?.selectedProvince?.value,
+                        paymentId: data?.selectedPayment?.value,
+                        addressClinic: data?.addressClinic,
+                        note: data?.note,
+                          // nameClinic: nameClinic,
+                    }, { where: {doctorId: data.id}})
+                }
+                if(checkEdit) {
                     await db.Markdown.update({
                         contentHTML: data.contentHTML,
                         contentMarkdown: data.contentMarkdown,
@@ -87,7 +110,6 @@ export const saveDetailInfoDoctor = (data) => {
                         message: "save info doctor succes"
                     })
                 }
-                
             }
         } catch(e) {
             reject(e)
@@ -117,9 +139,16 @@ export const getDetailDoctorById = (idDoctor) => {
                     nest: true,
                 })
 
+                const IFDT = await db.Doctorinfor.findOne({
+                    where: {doctorId: idDoctor},
+                    attributes: {
+                        exclude: ["createdAt", "updatedAt"]
+                    },
+                })
+
                 resolve({
                     errCode: 0,
-                    data: infoDoctor,
+                    data: {...infoDoctor, ...IFDT},
                 })
             } 
         } catch(e) {
@@ -192,7 +221,12 @@ export const getScheduleByDate = (doctorId, date) => {
                 })
             }
             const data = await db.Schedule.findAll({
-                where: {doctorId: doctorId, date: date}
+                where: {doctorId: doctorId, date: date},
+                include: [
+                    {model: db.Allcode, as: 'timeData', attributes: ['valueEn', 'valueVi']},
+                ],
+                raw: true,
+                nest: true,
             })
 
             resolve({

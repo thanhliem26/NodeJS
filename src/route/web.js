@@ -4,6 +4,8 @@ import * as HomaPage from '../controllers/homeController';
 import * as UserController from '../controllers/userController';
 import * as AllcodeController from '../controllers/allCodeController';
 import * as DoctorController from '../controllers/doctorController';
+import * as PatientController from '../controllers/PatientionController';
+import * as SpecialtyController from '../controllers/specialtyController';
 
 let router = express.Router();
 
@@ -36,6 +38,11 @@ const initWebRoute = (app) => {
     router.get('/api/get-detail-doctor-by-id', DoctorController.getDetailDoctorById);
     router.get('/api/get-schedule-by-date', DoctorController.getScheduleByDate);
     //
+
+    router.post('/api/patient-book-appoinment', PatientController.postBookingAppointment);
+    router.post('/api/verify-book-appoinment', PatientController.postVerifyBookingAppointment)
+    router.post('/api/create-new-specialty', SpecialtyController.createSpecialty);
+    router.get('/api/get-all-Specialty', SpecialtyController.getAllSpecialty);
 
     return app.use("/", router);
 }

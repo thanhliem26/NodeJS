@@ -5,11 +5,15 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon --exec babel-node src/server.js"
+    "start": "nodemon --exec babel-node src/server.js",
+    "build-src": "babel src -d build --copy-files",
+    "build": "node build/server.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@babel/cli": "^7.21.0",
+    "babel-cli": "^6.26.0",
     "bcrypt": "^5.1.0",
     "body-parser": "^1.20.1",
     "cors": "^2.8.5",
@@ -19,12 +23,14 @@
     "lodash": "^4.17.21",
     "moment": "^2.29.4",
     "mysql2": "^2.3.3",
-    "sequelize": "^6.25.7"
+    "nodemailer": "^6.9.1",
+    "sequelize": "^6.6.2",
+    "uuid": "^9.0.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.20.2",
-    "@babel/node": "^7.20.2",
-    "@babel/preset-env": "^7.20.2",
+    "@babel/core": "^7.12.10",
+    "@babel/node": "^7.12.10",
+    "@babel/preset-env": "^7.12.10",
     "nodemon": "^2.0.20",
     "sequelize-cli": "^6.5.2"
   }
